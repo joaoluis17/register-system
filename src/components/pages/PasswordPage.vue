@@ -1,35 +1,43 @@
-@import './base.css';
+<template>
+  <div class="form-container">
+    <p class="step-indicator">Etapa <strong>3</strong> de 4</p>
+    <h2 class="form-title">Senha de acesso</h2>
 
-* {
-  box-sizing: border-box;
-}
+    <form @submit.prevent="$emit('next')" class="form">
+      <FormInput
+        id="senha"
+        label="Digite a sua senha:"
+        type="password"
+        v-model="formData.senha"
+        required
+      />
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  min-height: 100vh;
-  background-color: #f4f5f8;
-}
+      <FormInput
+        id="confirmarSenha"
+        label="Confirme a sua senha:"
+        type="password"
+        v-model="formData.confirmarSenha"
+        required
+      />
 
-#app {
-  width: min(92%, 550px);
-  margin: 32px auto;
-  padding: 16px;
-}
+      <div class="buttons">
+        <button type="button" @click="$emit('back')" class="back-button">Voltar</button>
+        <button type="submit" class="form-button">Continuar</button>
+      </div>
+    </form>
+  </div>
+</template>
 
-.home,
-.form-container {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
-  padding: 24px;
-}
+<script setup>
+const props = defineProps({
+  formData: Object,
+  errors: Object,
+});
+const emit = defineEmits(["next", "back"]);
+</script>
 
-.home {
-  text-align: center;
-  padding: 20px;
-}
-
+<!--
+<style>
 .form-container {
   width: 100%;
   max-width: 400px;
@@ -77,34 +85,10 @@ strong {
   box-sizing: border-box;
 }
 
-.input:focus {
-  border-color: #5c6ac4;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(92, 106, 196, 0.15);
-}
-
-.select-tipoCadastro {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 30px;
-}
-
-.pf, .pj {
-  margin-right: 5px;
-}
-
-.pf-icon, .pj-icon {
-  width: 24px;
-  height: 24px;
-  margin-right: 8px;
-  vertical-align: middle;
-}
-
 .error {
   color: red;
-  font-size: 12px;
+  font-size: 0.9em;
   margin-top: 4px;
-  text-align: left;
 }
 
 .buttons {
@@ -116,8 +100,7 @@ strong {
   margin-right: 12px;
 }
 
-.form-button,
-button {
+.form-button {
   padding: 10px;
   font-size: 16px;
   font-weight: bold;
@@ -129,14 +112,9 @@ button {
   transition: background-color 0.3s;
 }
 
-.form-button:hover,
-button:hover {
+.form-button:hover {
   background-color: #ff8c00;
   transform: scale(1.02);
 }
-
-.review-block p {
-  margin: 7px 0;
-  font-size: 14px;
-}
-
+</style>
+-->

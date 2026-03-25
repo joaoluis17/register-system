@@ -1,47 +1,39 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+  <div id="app">
+    <SuccessPage v-if="isSuccess" @reset="resetFlow" />
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+    <div v-else>
+      <component
+        :is="steps[currentStep]"
+        :formData="formData"
+        :errors="errors"
+        @next="nextStep"
+        @back="prevStep"
+        @confirm="submitForm"
+      />
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
+<script setup>
+import { useRegisterFlow } from "./register";
+import WelcomePage from "./components/pages/WelcomePage.vue";
+import DataPage from "./components/pages/DataPage.vue";
+import PasswordPage from "./components/pages/PasswordPage.vue";
+import ReviewPage from "./components/pages/ReviewPage.vue";
+import SuccessPage from "./components/pages/SuccessPage.vue";
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+const steps = [WelcomePage, DataPage, PasswordPage, ReviewPage];
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+const {
+  currentStep,
+  isSuccess,
+  formData,
+  errors,
+  nextStep,
+  prevStep,
+  submitForm,
+  resetFlow,
+} = useRegisterFlow();
+</script>
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
